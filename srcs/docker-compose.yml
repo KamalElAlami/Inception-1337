@@ -1,7 +1,19 @@
+  networks:
+    network_type:
+      # name: network_type
+      driver: bridge
   services:
+    nginx:
+      build: ./requirements/nginx
+      ports:
+        - "443:443"
+      networks:
+        - network_type
+      restart: always
     mariadb:
       build: ./requirements/mariadb
       env_file:
         - .env
       volumes:
         - ./volume:/var/lib/mysql
+      restart: always
