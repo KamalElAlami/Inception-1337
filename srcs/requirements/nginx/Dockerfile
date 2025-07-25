@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update --fix-missing && \
+RUN apt update --fix-missing && \
     apt-get install -y --fix-broken && \
     apt-get install -y nginx openssl
 RUN mkdir /cert
@@ -20,6 +20,8 @@ RUN openssl req \
     -out /cert/nginx.crt \
     -subj "/CN=kael-ala.42.fr"
 
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 COPY ./helpers/default.conf /etc/nginx/conf.d/default.conf
 
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

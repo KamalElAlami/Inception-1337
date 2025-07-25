@@ -1,6 +1,19 @@
+  volumes:
+    mariadb_vol:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/dedsec/Inception-1337/mariadb_volume
+    wordpress_vol:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/dedsec/Inception-1337/wordpress_volume
+
   networks:
     network_type:
-      # name: network_type
       driver: bridge
   services:
     nginx:
@@ -9,11 +22,32 @@
         - "443:443"
       networks:
         - network_type
-      restart: always
+      volumes:
+        - wordpress_vol:/var/www/html
+      restart: on-failure
+      depends_on:
+        - wordpress
     mariadb:
       build: ./requirements/mariadb
+      ports:
+        - "3306:3306"
       env_file:
         - .env
+      networks:
+        - network_type
       volumes:
-        - ./volume:/var/lib/mysql
-      restart: always
+        - mariadb_vol:/var/lib/mysql
+      restart: on-failure
+    wordpress:
+      build: ./requirements/wordpress
+      ports:
+        - "9000:9000"
+      env_file:
+        - .env
+      networks:
+        - network_type
+      volumes:
+        - wordpress_vol:/var/www/html
+      restart: on-failure
+      depends_on:
+        - mariadb
