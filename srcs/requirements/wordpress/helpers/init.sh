@@ -1,12 +1,10 @@
 #!/bin/sh
 
-# Create PHP-FPM socket directory
 mkdir -p /run/php
 chown -R www-data:www-data /run/php/
 
 sed -i 's|listen = /run/php/php7.4-fpm.sock|listen = 0.0.0.0:9000|g' /etc/php/7.4/fpm/pool.d/www.conf
 
-# Setup WordPress if not already configured
 if [ ! -f /var/www/html/wp-config.php ]; then
     wp core download --allow-root --path=/var/www/html
     wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASSWORD --dbhost=$DB_HOST --allow-root --path=/var/www/html
