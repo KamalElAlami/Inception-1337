@@ -18,31 +18,31 @@
 - [x] Test MariaDB container standalone
 
 ## Phase 3: WordPress Service
-- [ ] Create `srcs/requirements/wordpress/Dockerfile`
-- [ ] Configure WordPress to connect to MariaDB
-- [ ] Set up WordPress configuration files
-- [ ] Test WordPress container with MariaDB
+- [x] Create `srcs/requirements/wordpress/Dockerfile`
+- [x] Configure WordPress to connect to MariaDB
+- [x] Set up WordPress configuration files
+- [x] Test WordPress container with MariaDB
 
 ## Phase 4: Nginx Service
-- [ ] Create `srcs/requirements/nginx/Dockerfile`
-- [ ] Configure nginx as reverse proxy for WordPress
-- [ ] Set up TLS/SSL certificates
-- [ ] Configure nginx.conf for HTTPS
+- [x] Create `srcs/requirements/nginx/Dockerfile`
+- [x] Configure nginx as reverse proxy for WordPress
+- [x] Set up TLS/SSL certificates
+- [x] Configure nginx.conf for HTTPS
 
 ## Phase 5: Integration
-- [ ] Complete `docker-compose.yml` with:
-  - [ ] All three services
-  - [ ] Networks configuration
-  - [ ] Volumes for persistent data
-  - [ ] Environment variables
-- [ ] Update Makefile with build/start/stop commands
-- [ ] Test full stack integration
+- [x] Complete `docker-compose.yml` with:
+  - [x] All three services
+  - [x] Networks configuration
+  - [x] Volumes for persistent data
+  - [x] Environment variables
+- [x] Update Makefile with build/start/stop commands
+- [x] Test full stack integration
 
 ## Phase 6: Final Requirements
-- [ ] Ensure all containers restart on failure
-- [ ] Verify TLS certificates work properly
-- [ ] Test data persistence across container restarts
-- [ ] Clean up and document any custom configurations
+- [x] Ensure all containers restart on failure
+- [x] Verify TLS certificates work properly
+- [x] Test data persistence across container restarts
+- [x] Clean up and document any custom configurations
 
 ## Notes
 - Start with MariaDB as it's the foundation
