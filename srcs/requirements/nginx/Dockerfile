@@ -22,6 +22,6 @@ RUN openssl req \
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
-COPY ./helpers/default.conf /etc/nginx/conf.d/default.conf
+COPY ./tools/default.conf /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]

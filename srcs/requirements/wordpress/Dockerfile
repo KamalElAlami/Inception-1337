@@ -15,6 +15,7 @@ RUN apt-get update --fix-missing && \
     wget \
     curl \
     mariadb-client \
+    php-redis \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/www/html
@@ -26,7 +27,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-COPY helpers/init.sh /init.sh
+COPY tools/init.sh /init.sh
 RUN chmod +x /init.sh
 
 WORKDIR /var/www/html
