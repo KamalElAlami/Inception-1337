@@ -11,6 +11,8 @@
         type: none
         o: bind
         device: /home/dedsec/Inception-1337/wordpress_volume
+    portainer_data:
+      driver: local
 
   networks:
     network_type:
@@ -18,6 +20,7 @@
   services:
     nginx:
       build: ./requirements/nginx
+      container_name: nginx
       ports:
         - "443:443"
       networks:
@@ -29,6 +32,7 @@
         - wordpress
     mariadb:
       build: ./requirements/mariadb
+      container_name: mariadb
       ports:
         - "3306:3306"
       env_file:
@@ -40,6 +44,7 @@
       restart: on-failure
     wordpress:
       build: ./requirements/wordpress
+      container_name: wordpress
       ports:
         - "9000:9000"
       env_file:
@@ -51,27 +56,60 @@
       restart: on-failure
       depends_on:
         - mariadb
+        - redis
     adminer:
       build: ./requirements/bonus/adminer
+      container_name: adminer
       ports:
         - "2000:2000"
       env_file:
         - .env
       networks:
         - network_type
-      # restart: 
-      #   - on-failure
-      # depands_on:
-      #   - mariadb
+      restart: on-failure
+      depends_on:
+        - mariadb
     redis:
       build: ./requirements/bonus/redis
+      container_name: redis
       ports:
         - "6380:6380"
       env_file:
         - .env
       networks:
         - network_type
-      # restart: 
-      #   - on-failure
-      # depands_on:
-      #   mariadb
+      restart: on-failure
+    ftp:
+      build: ./requirements/bonus/ftp
+      container_name: ftp
+      ports:
+        - "21:21"
+        - "21000-21010:21000-21010"  
+      networks:
+        - network_type
+      volumes:
+        - wordpress_vol:/uploads
+      env_file:
+        - .env
+      restart: on-failure
+      depends_on:
+        - wordpress
+    portainer:
+      build: ./requirements/bonus/portainer
+      container_name: portainer
+      ports:
+        - "9443:9443"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      networks:
+        - network_type
+      restart: on-failure
+    website:
+      build: ./requirements/bonus/website
+      container_name: website
+      ports:
+        - "8080:80"
+      networks:
+        - network_type
+      restart: on-failure

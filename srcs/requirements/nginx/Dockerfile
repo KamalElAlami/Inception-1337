@@ -1,8 +1,8 @@
 FROM debian:bullseye
 
-RUN apt update --fix-missing && \
-    apt-get install -y --fix-broken && \
-    apt-get install -y nginx openssl
+RUN apt update && \
+    apt install -y nginx openssl
+
 RUN mkdir /cert
 
 # Generate SSL certificate with OpenSSL

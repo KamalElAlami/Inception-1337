@@ -1,7 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update --fix-missing && \
-    apt install -y --fix-broken && \
+RUN apt update && \
     apt install -y redis-server
 
-CMD ["redis-server", "--port", "6380", "--protected-mode", "yes", "--bind", "0.0.0.0"]
+CMD ["redis-server", "--port", "6380", "--bind", "0.0.0.0"]

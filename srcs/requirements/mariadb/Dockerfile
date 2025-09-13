@@ -1,8 +1,7 @@
 FROM debian:bullseye
 
-RUN apt-get update --fix-missing && \
-    apt-get install -y --fix-broken && \
-    apt-get install -y mariadb-server
+RUN apt update && \
+    apt install -y mariadb-server
 
     
 COPY ./tools/init.sh /init.sh
