@@ -6,7 +6,6 @@ RUN apt update && \
 RUN mkdir -p /var/www/static
 COPY ./tools/index.html /var/www/static/index.html
 
-# Minimal config
 RUN echo 'server { \
     listen 80; \
     root /var/www/static; \
