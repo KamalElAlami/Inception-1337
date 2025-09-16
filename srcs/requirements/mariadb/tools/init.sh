@@ -10,4 +10,4 @@ mysql -u root -e "GRANT ALL PRIVILEGES ON \`$DB_NAME\`.* TO \`$DB_USER\`@'%';"
 mysql -u root -e "FLUSH PRIVILEGES;"
 mysqladmin -u root shutdown
 
-mysqld
+exec mysqld_safe

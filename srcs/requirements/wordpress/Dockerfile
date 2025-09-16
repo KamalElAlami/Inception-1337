@@ -1,14 +1,14 @@
-FROM debian:bullseye
+FROM debian:oldstable
 
 RUN apt-get update --fix-missing && \
     apt-get install -y --fix-broken && apt-get update && apt-get install -y \
-    php7.4-fpm \
-    php7.4-mysql \
-    php7.4-curl \
-    php7.4-gd \
-    php7.4-mbstring \
-    php7.4-xml \
-    php7.4-zip \
+    php8.2-fpm \
+    php8.2-mysql \
+    php8.2-curl \
+    php8.2-gd \
+    php8.2-mbstring \
+    php8.2-xml \
+    php8.2-zip \
     wget \
     curl \
     mariadb-client \

@@ -4,13 +4,13 @@
       driver_opts:
         type: none
         o: bind
-        device: /home/dedsec/Inception-1337/mariadb_volume
+        device: ~/Inception-1337/mariadb_volume
     wordpress_vol:
       driver: local
       driver_opts:
         type: none
         o: bind
-        device: /home/dedsec/Inception-1337/wordpress_volume
+        device: ~/Inception-1337/wordpress_volume
     portainer_data:
       driver: local
 
@@ -21,7 +21,7 @@
   services:
     nginx:
       container_name: nginx
-      image: nginx
+      image: nginx:mine
       build: ./requirements/nginx
       ports:
         - "443:443"
@@ -34,36 +34,45 @@
         - wordpress
     mariadb:
       container_name: mariadb
-      image: mariadb
+      image: mariadb:mine
       build: ./requirements/mariadb
-      ports:
-        - "3306:3306"
       env_file:
         - .env
       networks:
         - network_type
       volumes:
         - mariadb_vol:/var/lib/mysql
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+        start_period: 30s
       restart: on-failure
     wordpress:
       container_name: wordpress
-      image: wordpress
+      image: wordpress:mine
       build: ./requirements/wordpress
-      ports:
-        - "9000:9000"
       env_file:
         - .env
       networks:
         - network_type
       volumes:
         - wordpress_vol:/var/www/html
+      healthcheck:
+        test: ["CMD", "php-fpm8.2", "-t"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
       restart: on-failure
       depends_on:
-        - mariadb
-        - redis
+        redis:
+          condition: service_healthy
+        mariadb:
+          condition: service_healthy
     adminer:
       container_name: adminer
-      image: adminer
+      image: adminer:mine
       build: ./requirements/bonus/adminer
       ports:
         - "2000:2000"
@@ -73,10 +82,11 @@
         - network_type
       restart: on-failure
       depends_on:
-        - mariadb
+        mariadb:
+          condition: service_healthy
     redis:
       container_name: redis
-      image: redis
+      image: redis:mine
       build: ./requirements/bonus/redis
       ports:
         - "6380:6380"
@@ -85,9 +95,14 @@
       networks:
         - network_type
       restart: on-failure
+      healthcheck:
+        test: ["CMD", "redis-cli", "-p", "6380", "ping"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
     ftp:
       container_name: ftp
-      image: ftp
+      image: ftp:mine
       build: ./requirements/bonus/ftp
       ports:
         - "21:21"
@@ -103,7 +118,7 @@
         - wordpress
     portainer:
       container_name: portainer
-      image: portainer
+      image: portainer:mine
       build: ./requirements/bonus/portainer
       ports:
         - "9443:9443"
@@ -115,7 +130,7 @@
       restart: on-failure
     website:
       container_name: website
-      image: website
+      image: website:mine
       build: ./requirements/bonus/website
       ports:
         - "8080:80"
