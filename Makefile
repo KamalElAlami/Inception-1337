@@ -1,11 +1,8 @@
 CWD             := ${PWD}/srcs
 REQUIREMENTS    := $(CWD)/requirements
-# DB_VOLUME       := ${HOME}/data/mariadb
-# WP_VOLUME       := ${HOME}/data/wordpress
-# PT_VOLUME       := ${HOME}/data/portainer_volume
-DB_VOLUME       := ${PWD}/mariadb_volume
-WP_VOLUME       := ${PWD}/wordpress_volume
-PT_VOLUME       := ${PWD}/portainer_volume
+DB_VOLUME       := ${HOME}/data/mariadb
+WP_VOLUME       := ${HOME}/data/wordpress
+PT_VOLUME       := ${HOME}/data/portainer
 CERTS_PATH      := $(REQUIREMENTS)/nginx/conf/certs
 DOTENV_PATH     := $(CWD)/.env
 
@@ -17,8 +14,8 @@ $(shell $(MKDIR) $(DB_VOLUME) $(WP_VOLUME) $(PT_VOLUME))
 
 setup:
 	@if [ ! -f $(DOTENV_PATH) ]; then \
-	    cp $(CWD)/.env.example $(DOTENV_PATH) && \
-	    echo ".env file not found. Created .env from .env.example."; \
+	    cp $(CWD)/sample $(DOTENV_PATH) && \
+	    echo ".env file not found. Created .env from sample."; \
 	fi
 
 up: setup

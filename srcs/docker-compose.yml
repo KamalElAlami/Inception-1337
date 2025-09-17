@@ -4,19 +4,19 @@
       driver_opts:
         type: none
         o: bind
-        device: ~/Inception-1337/mariadb_volume
+        device: ${HOME}/data/mariadb
     wordpress_vol:
       driver: local
       driver_opts:
         type: none
         o: bind
-        device: ~/Inception-1337/wordpress_volume
+        device: ${HOME}/data/wordpress
     portainer_data:
       driver: local
       driver_opts:
         type: none
         o: bind
-        device: ~/Inception-1337/portainer_volume
+        device: ${HOME}/data/portainer
 
   networks:
     network_type:
@@ -103,7 +103,7 @@
         test: ["CMD", "redis-cli", "-p", "6380", "ping"]
         interval: 10s
         timeout: 5s
-        retries: 5
+        retries: 10
     ftp:
       container_name: ftp
       image: ftp:mine
@@ -133,7 +133,7 @@
         - network_type
       restart: on-failure
     website:
-      container_name: website
+      container_name: website.env.example
       image: website:mine
       build: ./requirements/bonus/website
       ports:
