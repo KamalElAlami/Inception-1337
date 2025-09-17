@@ -2,8 +2,10 @@ CWD             := ${PWD}/srcs
 REQUIREMENTS    := $(CWD)/requirements
 # DB_VOLUME       := ${HOME}/data/mariadb
 # WP_VOLUME       := ${HOME}/data/wordpress
+# PT_VOLUME       := ${HOME}/data/portainer_volume
 DB_VOLUME       := ${PWD}/mariadb_volume
 WP_VOLUME       := ${PWD}/wordpress_volume
+PT_VOLUME       := ${PWD}/portainer_volume
 CERTS_PATH      := $(REQUIREMENTS)/nginx/conf/certs
 DOTENV_PATH     := $(CWD)/.env
 
@@ -11,7 +13,7 @@ DOCKER_COMPOSE	:= docker compose -f $(CWD)/docker-compose.yml
 RMDIR           := sudo rm -fr
 MKDIR           := mkdir -p
 
-$(shell $(MKDIR) $(DB_VOLUME) $(WP_VOLUME))
+$(shell $(MKDIR) $(DB_VOLUME) $(WP_VOLUME) $(PT_VOLUME))
 
 setup:
 	@if [ ! -f $(DOTENV_PATH) ]; then \
@@ -34,7 +36,7 @@ logs:
 
 clean:
 	@$(DOCKER_COMPOSE) down -v
-	@$(RMDIR) $(WP_VOLUME) $(DB_VOLUME)
+	@$(RMDIR) $(WP_VOLUME) $(DB_VOLUME) $(PT_VOLUME)
 
 prune: clean
 	@docker system prune -af --volumes

@@ -13,6 +13,10 @@
         device: ~/Inception-1337/wordpress_volume
     portainer_data:
       driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: ~/Inception-1337/portainer_volume
 
   networks:
     network_type:

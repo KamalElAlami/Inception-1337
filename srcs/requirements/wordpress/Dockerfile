@@ -1,4 +1,4 @@
-FROM debian:oldstable
+FROM debian:bookworm
 
 RUN apt-get update --fix-missing && \
     apt-get install -y --fix-broken && apt-get update && apt-get install -y \
